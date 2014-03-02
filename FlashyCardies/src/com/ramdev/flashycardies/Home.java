@@ -1,17 +1,13 @@
 package com.ramdev.flashycardies;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -124,7 +120,7 @@ public class Home extends Activity {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}//end try
-			addNewDeckButton(i);
+			//addNewDeckButton(i);
 		}//end for
 	}//end populateDecks
 
