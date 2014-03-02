@@ -4,13 +4,16 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ public class EditDeck extends Activity {
 	
 	private Deck deck;
 	private ArrayList<String> cards;
+	private Card focusCard = new Card("default", "default");
 	
 	private Button editdeck_button_addCard;
 	private Button editdeck_button_editCard;
@@ -55,8 +59,37 @@ public class EditDeck extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(EditDeck.this);
+				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
+				addDeckAlert.setCancelable(true);
 				
+				final EditText input1 = new EditText(EditDeck.this);
+				final EditText input2 = new EditText(EditDeck.this);
+				addDeckAlert.setView(input1);
+				input1.setFocusable(true);
+				input1.setFocusableInTouchMode(true);
+				input1.requestFocus();
+				input2.setFocusable(true);
+				input2.setFocusableInTouchMode(true);
+				
+				//Ok Button interaction
+				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						if(input1.getText().toString()==""){
+							Toast.makeText(EditDeck.this, "Cards need a name", Toast.LENGTH_SHORT).show();
+						} else {
+						}
+					}//end onclick
+				});//end setPositiveButton
+				
+				//Cancel Button interaction
+				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}//end onclick
+				});//end setNegativeButton
+				
+				addDeckAlert.show();
 			}
 		});
 		
@@ -64,8 +97,39 @@ public class EditDeck extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(EditDeck.this);
+				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
+				addDeckAlert.setCancelable(true);
 				
+				final EditText input1 = new EditText(EditDeck.this);
+				final EditText input2 = new EditText(EditDeck.this);
+				addDeckAlert.setView(input1);
+				input1.setFocusable(true);
+				input1.setFocusableInTouchMode(true);
+				input1.requestFocus();
+				input1.setText(focusCard.getCardName());
+				input2.setFocusable(true);
+				input2.setFocusableInTouchMode(true);
+				input2.setText(focusCard.getCardDefinition());
+				
+				//Ok Button interaction
+				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						if(input1.getText().toString()==""){
+							Toast.makeText(EditDeck.this, "Cards need a name", Toast.LENGTH_SHORT).show();
+						} else {
+						}
+					}//end onclick
+				});//end setPositiveButton
+				
+				//Cancel Button interaction
+				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}//end onclick
+				});//end setNegativeButton
+				
+				addDeckAlert.show();	
 			}
 		});
 			
@@ -73,8 +137,34 @@ public class EditDeck extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(EditDeck.this);
+				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
+				addDeckAlert.setCancelable(true);
 				
+				final EditText input1 = new EditText(EditDeck.this);
+				addDeckAlert.setView(input1);
+				input1.setFocusable(true);
+				input1.setFocusableInTouchMode(true);
+				input1.requestFocus();
+				
+				//Ok Button interaction
+				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						if(input1.getText().toString()==""){
+							Toast.makeText(EditDeck.this, "Decks need a name", Toast.LENGTH_SHORT).show();
+						} else {
+						}
+					}//end onclick
+				});//end setPositiveButton
+				
+				//Cancel Button interaction
+				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}//end onclick
+				});//end setNegativeButton
+				
+				addDeckAlert.show();
 			}
 		});
 		

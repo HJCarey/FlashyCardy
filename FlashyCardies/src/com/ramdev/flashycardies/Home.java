@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -42,7 +43,15 @@ public class Home extends Activity {
 		setContentView(R.layout.activity_home);
 
 		//Create master file for Deck names and saving functions
-		File masterList = new File(DEFAULT_MASTER_FILE);
+
+		String filePath = Environment.getDataDirectory().toString() + "/" + DEFAULT_MASTER_FILE;
+		File masterList = new File(filePath);
+		
+		home_button_addDeck = (Button) findViewById(R.id.addDeck);
+		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton); 
+		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
+		
+		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
 		
 		//If there is no master file, this will create one.
 		if(!masterList.exists()) {
@@ -86,8 +95,7 @@ public class Home extends Activity {
 						if(input1.getText().toString()==""){
 							Toast.makeText(Home.this, "Decks need a name", Toast.LENGTH_SHORT).show();
 						} else {
-						addDeck(input1.getText().toString());
-						Toast.makeText(Home.this, input1.getText(), Toast.LENGTH_SHORT).show();
+							addDeck(input1.getText().toString());
 						}
 					}//end onclick
 				});//end setPositiveButton
@@ -145,52 +153,34 @@ public class Home extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		Toast.makeText(this, testString, Toast.LENGTH_SHORT).show();
 		
 		deckNames = testString.split(delim);
 	}
 	
-/*	DEPRECIATED
-	public void populateDecks() {		
-		String delim = "[~]";
-		for (int i=0; i<deckNames.length; i++) {
-			Deck deck = new Deck(deckNames[i]);
-
-			try {
-				String[] tokenizer;
-				String receiveString = "";
-				Scanner scanner = new Scanner(new File(deckNames[i]));
-				
-				while (scanner.hasNext()) {
-					receiveString = scanner.nextLine();
-					tokenizer = receiveString.split(delim);
-					Card card = new Card(tokenizer[0], tokenizer[1]);
-				}
-				scanner.close();
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}//end try
-		}//end for
-	}//end populateDecks
-*/	
-	
 	private void createNewDeck(int index){
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View newDeckView = inflater.inflate(R.layout.new_deck_layout, null);
-		
-		Toast.makeText(Home.this, "Index: " + index, Toast.LENGTH_SHORT).show();
-		
+				
 		Button newButton = (Button) newDeckView.findViewById(R.id.newdeck_button_newdeck);
 		newButton.setText(focusDeck);
 		newButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(Home.this, this.toString(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
 		home_tablelayout_deckViewLayout.addView(newDeckView);
+	}
+	
+	public void addDeck(String name) {
+		Deck deck = new Deck(name);
+		deck.saveDeck(Home.this);
+		focusDeck = deck.getDeckName();
+		//deckList.add(deck);
+		refreshDecks();
+		createNewDeck(deckNames.length-1);
 	}
 	
 	private void editDeck(String deck){
@@ -205,16 +195,6 @@ public class Home extends Activity {
 		
     	intent.putExtra(EXTRA_MESSAGE, deck);
     	startActivity(intent);
-	}
-	
-	public void addDeck(String name) {
-		Deck deck = new Deck(name);
-		deck.saveDeck(Home.this);
-		focusDeck = deck.getDeckName();
-		//deckList.add(deck);
-		refreshDecks();
-		createNewDeck(deckNames.length-1);
-		Toast.makeText(Home.this, "Add Deck: " + deck.getDeckName() + ".  deckList length: " + deckList.size(), Toast.LENGTH_SHORT).show();
 	}
 
 }//end Home
