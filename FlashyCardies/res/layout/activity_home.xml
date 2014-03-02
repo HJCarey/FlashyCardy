@@ -36,14 +36,14 @@
             android:layout_weight="1"
             android:layout_span="2" >
 
-            <LinearLayout
-                android:id="@+id/home_linearlayout_deckViewLayout"
+            <TableLayout
+                android:id="@+id/home_tablelayout_deckViewLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:orientation="vertical" >
 
-            </LinearLayout>
+            </TableLayout>
 
         </ScrollView>
 
@@ -52,20 +52,24 @@
     <TableRow
         android:id="@+id/home_tablerow_optionsTableRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:tag="deck_options" >
 
         <Button
             android:id="@+id/home_button_editDeckButton"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
             android:text="@string/home_button_editDeck" />
 
         <Button
             android:id="@+id/home_button_studyDeckButton"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
             android:text="@string/home_button_studyDeck" />
 
     </TableRow>
