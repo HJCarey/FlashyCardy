@@ -7,19 +7,26 @@ import java.io.IOException;
 import java.util.Scanner;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-//import android.content.SharedPreferences;
+import android.content.SharedPreferences;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 public class Home extends Activity {
 	
 	String[] deckNames;
-
+	static String HOME_ADDDECK_EXTRA;
+	
 	private Button home_button_addDeck;
 	private Button home_button_editDeckButton;
 	private Button home_button_studyDeckButton;
@@ -50,7 +57,17 @@ public class Home extends Activity {
 			}
 		}//end if
 		
-		populateDecks();		
+		populateDeckNames();
+		populateDecks();
+		
+		setContentView(R.layout.activity_home);
+		
+		home_button_addDeck = (Button) findViewById(R.id.addDeck);
+		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton);
+		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
+		
+		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
+		
 		initializeButtons();
 	}
 	
@@ -63,29 +80,21 @@ public class Home extends Activity {
 	
 	private void initializeButtons(){
 		home_button_addDeck.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
-		
 		home_button_editDeckButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
-		
 		home_button_studyDeckButton.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		
@@ -93,12 +102,12 @@ public class Home extends Activity {
 			addNewDeckButton(i);
 	}
 	
-	public void populateDecks() {
+	public void populateDeckNames() {
 		File masterList = new File("master.txt");
 		String testString = "";
 		String delim = "[~]";
 		
-		//Pull all text from masterList.txt
+		//Pull all deck names from masterList.txt
 		try {
 			FileInputStream fis = openFileInput(masterList.getName());
 			
@@ -114,7 +123,10 @@ public class Home extends Activity {
 		}
 		
 		deckNames = testString.split(delim);
-		
+	}
+	
+	public void populateDecks() {
+		String delim = "[~]";
 		for (int i=0; i<deckNames.length; i++) {
 			Deck deck = new Deck(deckNames[i]);
 
@@ -154,11 +166,38 @@ public class Home extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(Home.this);
+				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
+				addDeckAlert.setCancelable(true);
+				
+				final EditText input1 = new EditText(Home.this);
+				addDeckAlert.setView(input1);
+				
+				//Ok Button interaction
+				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						addDeck(input1.toString());
+						Toast.makeText(Home.this, "Positive Button Clicked", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(Home.this, EditDeck.class);
+						intent.putExtra(HOME_ADDDECK_EXTRA, input1.toString());
+					}//end onclick
+				});
+				
+				//Cancel Button interaction
+				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}//end onclick
+				});
 				
 			}//end onClick
 		});//end OnClickListener
 		
 		home_tablelayout_deckViewLayout.addView(newDeckButtonView, index);
 	}//end addNewDeckButton
+	
+	public void addDeck(String name) {
+		Deck deck = new Deck(name);
+	}
 
 }//end Home

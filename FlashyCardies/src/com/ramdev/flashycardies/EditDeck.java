@@ -1,7 +1,5 @@
 package com.ramdev.flashycardies;
 
-import com.murphy.helloworld.MainActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +16,7 @@ public class EditDeck extends Activity {
 	private Button edit_button_editCard;
 	private Button edit_button_renameDeck;
 
-	private Deck deck;
+	private String deck;
 	
 	private TableLayout edit_tablelayout_cardView;
 
