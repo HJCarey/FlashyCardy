@@ -9,5 +9,9 @@
     <string name="home_button_studyDeck">Study</string>
     <string name="home_button_deleteDeck">Delete</string>
     
+    <string name="edit_button_addCard">Add a card</string>
+    <string name="edit_button_editCard">Edit</string>
+    <string name="edit_button_renameDeck">Rename</string>
+    <string name="edit_button_deleteCard">Delete</string>
 
 </resources>

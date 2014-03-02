@@ -8,7 +8,7 @@ import java.util.Scanner;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
+//import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -26,12 +26,20 @@ public class Home extends Activity {
 	
 	private TableLayout home_tablelayout_deckViewLayout;
 	
-	private SharedPreferences decksToUse;
+//	private SharedPreferences decksToUse;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	
+		setContentView(R.layout.activity_home);
+		
+		
+		home_button_addDeck = (Button) findViewById(R.id.addDeck);
+		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton);
+		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
+		
+		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
+		
 		//Create master file for Deck names and saving functions
 		File masterList = new File("master.txt");
 		if(!masterList.exists()) {
@@ -42,16 +50,7 @@ public class Home extends Activity {
 			}
 		}//end if
 		
-		populateDecks();
-		
-		setContentView(R.layout.activity_home);
-		
-		home_button_addDeck = (Button) findViewById(R.id.addDeck);
-		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton);
-		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
-		
-		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
-		
+		populateDecks();		
 		initializeButtons();
 	}
 	
@@ -89,6 +88,9 @@ public class Home extends Activity {
 				
 			}
 		});
+		
+		for(int i=0; i<deckNames.length; i++)
+			addNewDeckButton(i);
 	}
 	
 	public void populateDecks() {
@@ -131,7 +133,6 @@ public class Home extends Activity {
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}//end try
-			//addNewDeckButton(i);
 		}//end for
 	}//end populateDecks
 
@@ -145,16 +146,19 @@ public class Home extends Activity {
 		
 		newDeckButton.setText(deckNames[index]);
 		
+		// Sets whether the gravity should be left or right based on the index of the button
+		newDeckButton.setGravity(index%2==1?0:1);
+		
 		newDeckButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-			}
-		});
+			}//end onClick
+		});//end OnClickListener
 		
 		home_tablelayout_deckViewLayout.addView(newDeckButtonView, index);
-	}
+	}//end addNewDeckButton
 
-}
+}//end Home
