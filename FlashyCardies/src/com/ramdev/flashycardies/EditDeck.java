@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 public class EditDeck extends Activity {
 	
@@ -28,9 +29,9 @@ public class EditDeck extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_deck);
-
 		Intent intent = getIntent();
 		deck = new Deck(intent.getStringExtra(Home.EXTRA_MESSAGE));
+		setTitle(deck.getDeckName());
 		
 		editdeck_tableview_cardView = (TableLayout) findViewById(R.id.editdeck_tablelayout_cardview);
 		
@@ -78,24 +79,23 @@ public class EditDeck extends Activity {
 		});
 		
 		for(int i=0; i<cards.size(); i++)
-			addNewCardButton(i);
+			createNewCard(i);
 	}
 	
-	private void addNewCardButton(int index) {
+	private void createNewCard(int index){
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View newDeckView = inflater.inflate(R.layout.new_deck_layout, null);
 		
-		View newDeckButtonView = inflater.inflate(R.layout.new_deck_layout, null);
-		
-		Button newButton = (Button) newDeckButtonView.findViewById(R.id.newdeck_button_deckButton);
-		
+		Button newButton = (Button) newDeckView.findViewById(R.id.newdeck_button_newdeck);
+		newButton.setText(cards.get(index));
 		newButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				Toast.makeText(EditDeck.this, this.toString(), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
-		editdeck_tableview_cardView.addView(newDeckButtonView, index);
-	}//end addNewCardButton
+		editdeck_tableview_cardView.addView(newDeckView);
+	}
 }

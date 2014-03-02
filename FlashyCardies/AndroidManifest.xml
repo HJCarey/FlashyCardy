@@ -26,6 +26,10 @@
             android:name="com.ramdev.flashycardies.EditDeck"
             android:label="@string/title_activity_edit_deck" >
         </activity>
+        <activity
+            android:name="com.ramdev.flashycardies.StudyDeck"
+            android:label="@string/title_activity_study_deck" >
+        </activity>
     </application>
 
 </manifest>

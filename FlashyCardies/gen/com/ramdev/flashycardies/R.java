@@ -24,7 +24,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080012;
+        public static final int action_settings=0x7f080014;
         public static final int addDeck=0x7f080009;
         public static final int editdeck_button_addCard=0x7f080001;
         public static final int editdeck_button_editCard=0x7f080006;
@@ -41,17 +41,21 @@ public final class R {
         public static final int home_tablerow_addDeckTableRow=0x7f080008;
         public static final int home_tablerow_deckViewTableRow=0x7f08000a;
         public static final int home_tablerow_optionsTableRow=0x7f08000d;
-        public static final int newdeck_button_deckButton=0x7f080011;
-        public static final int newdeck_linearLayout_newdeck=0x7f080010;
+        public static final int newdeck_button_newdeck=0x7f080013;
+        public static final int newdeck_linearLayout_newdeck=0x7f080011;
+        public static final int newdeck_tablerow_newdeck=0x7f080012;
+        public static final int studydeck_viewswitcher_cardView=0x7f080010;
     }
     public static final class layout {
         public static final int activity_edit_deck=0x7f030000;
         public static final int activity_home=0x7f030001;
-        public static final int new_deck_layout=0x7f030002;
+        public static final int activity_study_deck=0x7f030002;
+        public static final int new_deck_layout=0x7f030003;
     }
     public static final class menu {
         public static final int edit_deck=0x7f070000;
         public static final int home=0x7f070001;
+        public static final int study_deck=0x7f070002;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
@@ -67,6 +71,7 @@ public final class R {
         public static final int home_button_editDeck=0x7f050003;
         public static final int home_button_studyDeck=0x7f050004;
         public static final int title_activity_edit_deck=0x7f05000b;
+        public static final int title_activity_study_deck=0x7f05000d;
     }
     public static final class style {
         /** 

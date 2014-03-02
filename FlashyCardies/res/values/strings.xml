@@ -14,5 +14,6 @@
     <string name="edit_button_deleteCard">Delete</string>
     <string name="title_activity_edit_deck">EditDeck</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_study_deck">StudyDeck</string>
 
 </resources>
