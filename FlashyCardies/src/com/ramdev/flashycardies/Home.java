@@ -56,14 +56,6 @@ public class Home extends Activity {
 		refreshDecks();
 //		populateDecks();
 		
-		setContentView(R.layout.activity_home);
-		
-		home_button_addDeck = (Button) findViewById(R.id.addDeck);
-		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton);
-		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
-		
-		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
-		
 		initializeButtons();
 	}
 	
@@ -189,7 +181,7 @@ public class Home extends Activity {
 		Toast.makeText(Home.this, "Index: " + index, Toast.LENGTH_SHORT).show();
 		
 		Button newButton = (Button) newDeckView.findViewById(R.id.newdeck_button_newdeck);
-		newButton.setText(deckList.get(index).getDeckName());
+		newButton.setText(focusDeck);
 		newButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -202,8 +194,14 @@ public class Home extends Activity {
 	}
 	
 	private void editDeck(String deck){
-		
 		Intent intent = new Intent(this, EditDeck.class);
+		
+    	intent.putExtra(EXTRA_MESSAGE, deck);
+    	startActivity(intent);
+	}
+	
+	private void studyDeck(String deck){
+		Intent intent = new Intent(this, StudyDeck.class);
 		
     	intent.putExtra(EXTRA_MESSAGE, deck);
     	startActivity(intent);
@@ -213,7 +211,7 @@ public class Home extends Activity {
 		Deck deck = new Deck(name);
 		deck.saveDeck(Home.this);
 		focusDeck = deck.getDeckName();
-		deckList.add(deck);
+		//deckList.add(deck);
 		refreshDecks();
 		createNewDeck(deckNames.length-1);
 		Toast.makeText(Home.this, "Add Deck: " + deck.getDeckName() + ".  deckList length: " + deckList.size(), Toast.LENGTH_SHORT).show();
