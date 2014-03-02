@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import android.content.Context;
+import android.widget.Toast;
 
 public class Deck {
 	private String deckName;
@@ -88,7 +89,8 @@ public class Deck {
 	}
 	
 	public void saveDeck(Context context) {
-		File file = new File(this.getDeckName());
+		String filePath = context.getFilesDir().getPath() + "/" + this.getDeckName() + ".txt";
+		File file = new File(filePath);
 		String name;
 		String def;
 		String combinedInfo;
@@ -97,6 +99,7 @@ public class Deck {
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
+				Toast.makeText(context, "Deck.saveDeck(Context).IOException", Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 		} else {
@@ -117,9 +120,9 @@ public class Deck {
 				combinedInfo = name + "~" + def;
 				bw.write(combinedInfo);
 				bw.newLine();
-				bw.close();
-				osw.close();
 			}
+			bw.close();
+			osw.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
