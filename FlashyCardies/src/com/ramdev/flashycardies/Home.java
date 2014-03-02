@@ -28,7 +28,10 @@ import android.widget.Toast;
 public class Home extends Activity {
 	
 	String[] deckNames;
-	static String HOME_ADDDECK_EXTRA;
+	
+	private final String DEFAULT_MASTER_FILE = "master.txt";
+	public  final static String EXTRA_MESSAGE = "com.ramdev.FlashyCardies";
+	
 	private ArrayList<Deck> deckList = new ArrayList<Deck>();
 	
 	private Button home_button_addDeck;
@@ -52,17 +55,19 @@ public class Home extends Activity {
 		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
 		
 		//Create master file for Deck names and saving functions
-		File masterList = new File("master.txt");
+		File masterList = new File(DEFAULT_MASTER_FILE);
+		
+		//If there is no master file, this will create one.
 		if(!masterList.exists()) {
 			try {
 				masterList.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}//end if
+		} //end if
 		
 		populateDeckNames();
-		populateDecks();
+//		populateDecks();
 		
 		setContentView(R.layout.activity_home);
 		
@@ -98,9 +103,7 @@ public class Home extends Activity {
 				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						addDeck(input1.toString());
-						Toast.makeText(Home.this, "Positive Button Clicked", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(Home.this, EditDeck.class);
-						intent.putExtra(HOME_ADDDECK_EXTRA, input1.toString());
+						editDeck(input1.toString());
 					}//end onclick
 				});//end setPositiveButton
 				
@@ -110,6 +113,7 @@ public class Home extends Activity {
 						dialog.cancel();
 					}//end onclick
 				});//end setNegativeButton
+				
 				addDeckAlert.show();
 			}//end onClick (home_button_addDeck)
 		});//end OnClickListener
@@ -153,6 +157,7 @@ public class Home extends Activity {
 		deckNames = testString.split(delim);
 	}
 	
+/*	DEPRECIATED
 	public void populateDecks() {		
 		String delim = "[~]";
 		for (int i=0; i<deckNames.length; i++) {
@@ -175,16 +180,38 @@ public class Home extends Activity {
 			}//end try
 		}//end for
 	}//end populateDecks
+*/	
 	
+	/*
+	 * void addNewDeckButton
+	 * 
+	 * Adds a new button to the Scroll View.
+	 * 
+	 */
 	private void addNewDeckButton(int index) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		View newDeckButtonView = inflater.inflate(R.layout.new_deck_layout, null);
 		
-		Button newButton;
+		Button newButton = (Button) newDeckButtonView.findViewById(R.id.newdeck_button_deckButton);
+		
+		newButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
 		
 		home_tablelayout_deckViewLayout.addView(newDeckButtonView, index);
 	}//end addNewDeckButton
+	
+	private void editDeck(String deck){
+		Intent intent = new Intent(this, EditDeck.class);
+		
+    	intent.putExtra(EXTRA_MESSAGE, deck);
+    	startActivity(intent);
+	}
 	
 	public void addDeck(String name) {
 		Deck deck = new Deck(name);

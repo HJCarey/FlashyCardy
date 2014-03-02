@@ -3,17 +3,16 @@
 
     <string name="app_name">Flashy Cardies</string>
     <string name="action_settings">Settings</string>
-    
     <string name="home_button_addDeck">Add a deck</string>
     <string name="home_button_editDeck">Edit</string>
     <string name="home_button_studyDeck">Study</string>
     <string name="home_button_deleteDeck">Delete</string>
     <string name="home_alert_nameDeck">Deck Name</string>
-    
     <string name="edit_button_addCard">Add a card</string>
     <string name="edit_button_editCard">Edit</string>
     <string name="edit_button_renameDeck">Rename</string>
     <string name="edit_button_deleteCard">Delete</string>
-    
+    <string name="title_activity_edit_deck">EditDeck</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

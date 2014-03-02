@@ -31,6 +31,7 @@
 
         <ScrollView
             android:id="@+id/home_scrollview_deckViewScroll"
+            android:layout_marginTop="1dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -9,11 +9,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import android.content.Context;
 
 public class Deck {
 	private String deckName;
+	private String delim = "[~]";
 	private ArrayList<Card> cards = new ArrayList<Card>();
 	
 	//Constructor
@@ -126,8 +128,27 @@ public class Deck {
 		
 	}//end saveDeck
 	
-	public void retrieveCards(Context context) {
-	//	File file = new File()
+	public ArrayList<String> retrieveCards(Context context) {
+		ArrayList<String> result = new ArrayList<String>();
+		try {
+			String[] tokenizer;
+			String receiveString = "";
+			Scanner scanner = new Scanner(new File(deckName));
+			
+			while (scanner.hasNext()) {
+				receiveString = scanner.nextLine();
+				tokenizer = receiveString.split(delim);
+				cards.add(new Card(tokenizer[0], tokenizer[1]));
+				result.add(tokenizer[0]);
+			}
+			scanner.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}//end try
+		
+		return result;
 	}//end retrieveCards
+	
 	
 }//end class
