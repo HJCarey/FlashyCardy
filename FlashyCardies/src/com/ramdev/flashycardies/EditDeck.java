@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 public class EditDeck extends Activity {
@@ -79,21 +80,6 @@ public class EditDeck extends Activity {
 		
 		View newDeckButtonView = inflater.inflate(R.layout.new_deck_layout, null);
 		
-		Button newCardButton = (Button) newDeckButtonView.findViewById(R.id.newdeck_button_newdeck);
-		
-//		newDeckButton.setText(cardNames[index]);
-		
-		// Sets whether the gravity should be left or right based on the index of the button
-		newCardButton.setGravity(index%2==1?0:1);
-		
-		newCardButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}//end onClick
-		});//end OnClickListener
 		
 		edit_tablelayout_cardView.addView(newDeckButtonView, index);
 	}//end addNewCardButton

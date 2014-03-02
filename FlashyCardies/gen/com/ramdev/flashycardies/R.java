@@ -24,7 +24,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080011;
+        public static final int action_settings=0x7f080012;
         public static final int addDeck=0x7f080009;
         public static final int edit_button_addCard=0x7f080001;
         public static final int edit_button_editCard=0x7f080006;
@@ -41,7 +41,8 @@ public final class R {
         public static final int home_tablerow_addDeckTableRow=0x7f080008;
         public static final int home_tablerow_deckViewTableRow=0x7f08000a;
         public static final int home_tablerow_optionsTableRow=0x7f08000d;
-        public static final int newdeck_button_newdeck=0x7f080010;
+        public static final int newdeck_button_deckButton=0x7f080011;
+        public static final int newdeck_linearLayout_newdeck=0x7f080010;
     }
     public static final class layout {
         public static final int activity_edit_deck=0x7f030000;

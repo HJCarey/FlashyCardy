@@ -19,7 +19,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Home extends Activity {
@@ -81,20 +83,44 @@ public class Home extends Activity {
 	private void initializeButtons(){
 		home_button_addDeck.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(View v) {	
 				// TODO Auto-generated method stub
-			}
-		});
+				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(Home.this);
+				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
+				addDeckAlert.setCancelable(true);
+				
+				final EditText input1 = new EditText(Home.this);
+				addDeckAlert.setView(input1);
+				
+				//Ok Button interaction
+				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						addDeck(input1.toString());
+						Toast.makeText(Home.this, "Positive Button Clicked", Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent(Home.this, EditDeck.class);
+						intent.putExtra(HOME_ADDDECK_EXTRA, input1.toString());
+					}//end onclick
+				});//end setPositiveButton
+				
+				//Cancel Button interaction
+				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}//end onclick
+				});//end setNegativeButton
+				addDeckAlert.show();
+			}//end onClick (home_button_addDeck)
+		});//end OnClickListener
 		home_button_editDeckButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Toast.makeText(Home.this, "editDeck", Toast.LENGTH_SHORT);
 			}
 		});
 		home_button_studyDeckButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Toast.makeText(Home.this, "studyDeck", Toast.LENGTH_SHORT);
 			}
 		});
 		
@@ -125,7 +151,7 @@ public class Home extends Activity {
 		deckNames = testString.split(delim);
 	}
 	
-	public void populateDecks() {
+	public void populateDecks() {		
 		String delim = "[~]";
 		for (int i=0; i<deckNames.length; i++) {
 			Deck deck = new Deck(deckNames[i]);
@@ -147,57 +173,22 @@ public class Home extends Activity {
 			}//end try
 		}//end for
 	}//end populateDecks
-
 	
 	private void addNewDeckButton(int index) {
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		View newDeckButtonView = inflater.inflate(R.layout.new_deck_layout, null);
 		
-		Button newDeckButton = (Button) newDeckButtonView.findViewById(R.id.newdeck_button_newdeck);
-		
-		newDeckButton.setText(deckNames[index]);
-		
-		// Sets whether the gravity should be left or right based on the index of the button
-		newDeckButton.setGravity(index%2==1?0:1);
-		
-		newDeckButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				AlertDialog.Builder addDeckAlert = new AlertDialog.Builder(Home.this);
-				addDeckAlert.setTitle(R.string.home_alert_nameDeck);
-				addDeckAlert.setCancelable(true);
-				
-				final EditText input1 = new EditText(Home.this);
-				addDeckAlert.setView(input1);
-				
-				//Ok Button interaction
-				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						addDeck(input1.toString());
-						Toast.makeText(Home.this, "Positive Button Clicked", Toast.LENGTH_SHORT).show();
-						Intent intent = new Intent(Home.this, EditDeck.class);
-						intent.putExtra(HOME_ADDDECK_EXTRA, input1.toString());
-					}//end onclick
-				});
-				
-				//Cancel Button interaction
-				addDeckAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}//end onclick
-				});
-				
-			}//end onClick
-		});//end OnClickListener
+		Button newButton;
 		
 		home_tablelayout_deckViewLayout.addView(newDeckButtonView, index);
 	}//end addNewDeckButton
 	
 	public void addDeck(String name) {
 		Deck deck = new Deck(name);
+		deck.saveDeck(Home.this);
+		populateDeckNames();
+		addNewDeckButton(deckNames.length-1);
 	}
 
 }//end Home
