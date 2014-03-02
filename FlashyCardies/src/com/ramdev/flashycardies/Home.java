@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.Scanner;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +17,7 @@ public class Home extends Activity {
 	Button home_button_addDeck;
 	Button home_button_editDeckButton;
 	Button home_button_studyDeckButton;
+	String[] deckNames;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,8 @@ public class Home extends Activity {
 				e.printStackTrace();
 			}
 		}//end if
+		
+		populateDecks();
 		
 		setContentView(R.layout.activity_home);
 		
@@ -82,7 +84,6 @@ public class Home extends Activity {
 		File masterList = new File("master.txt");
 		String testString = "";
 		String delim = "[~]";
-		String[] deckNames;
 		
 		//Pull all text from masterList.txt
 		try {
@@ -103,8 +104,23 @@ public class Home extends Activity {
 		
 		for (int i=0; i<deckNames.length; i++) {
 			Deck deck = new Deck(deckNames[i]);
-			for (int j=0; i<)
-		}
-	}
+			try {
+				String[] tokenizer;
+				String receiveString = "";
+				Scanner scanner = new Scanner(new File(deckNames[i]));
+				
+				while (scanner.hasNext()) {
+					receiveString = scanner.nextLine();
+					tokenizer = receiveString.split(delim);
+					Card card = new Card(tokenizer[0], tokenizer[1]);
+				}
+				scanner.close();
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}//end try
+			//addNewDeckButton(i);
+		}//end for
+	}//end populateDecks
 
 }

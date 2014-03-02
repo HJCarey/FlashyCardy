@@ -1,9 +1,10 @@
 package com.ramdev.flashycardies;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ public class Deck {
 	private String deckName;
 	private ArrayList<Card> cards = new ArrayList<Card>();
 	
+	//Constructor
 	public Deck(String name) {
 		this.deckName = name;
 	}
@@ -47,17 +49,20 @@ public class Deck {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		
+		}//end if
+
 		try {
-			FileOutputStream fos = context.openFileOutput(this.getDeckName(), Context.MODE_PRIVATE);
+			OutputStreamWriter osw = new OutputStreamWriter(context.openFileOutput(this.getDeckName(), Context.MODE_PRIVATE));
+			BufferedWriter bw = new BufferedWriter(osw);
 			for (int i=0; i<this.cards.size(); i++) {
 				name = this.cards.get(i).getCardName();
-				def  = this.cards.get(i).getCardDefinition();
-				combinedInfo = name + "~ " + def;
-				fos.write(combinedInfo.getBytes());
+				def = this.cards.get(i).getCardDefinition();
+				combinedInfo = name + "~" + def;
+				bw.write(combinedInfo);
+				bw.newLine();
+				bw.close();
+				osw.close();
 			}
-			fos.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -65,5 +70,9 @@ public class Deck {
 		}//end try
 		
 	}//end saveDeck
+	
+	public void retrieveCards(Context context) {
+	//	File file = new File()
+	}//end retrieveCards
 	
 }//end class
