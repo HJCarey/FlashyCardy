@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import android.content.Context;
 
@@ -28,6 +29,24 @@ public class Deck {
 	
 	public void addCard(Card card) {
 		cards.add(card);
+	}
+	
+	public void deleteDeck() {
+		File deck = new File(this.getDeckName());
+		deck.delete();
+		
+		//File master = new File("master.txt");
+		/*try {
+			String[] tokenizer;
+			String receiveString = "";
+			Scanner scanner = new Scanner(master);
+			
+			while (scanner.hasNext()) {
+				receiveString = scanner.nextLine();
+				tokenizer = receiveString.split(delim);
+				Card card = new Card(tokenizer[0], tokenizer[1]);
+			}
+			scanner.close();*/
 	}
 	
 	public void saveDeck(Context context) {

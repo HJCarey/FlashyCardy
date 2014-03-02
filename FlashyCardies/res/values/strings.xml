@@ -8,6 +8,6 @@
     <string name="home_button_editDeck">Edit</string>
     <string name="home_button_studyDeck">Study</string>
     <string name="home_button_deleteDeck">Delete</string>
-    
+    <string name="home_alert_nameDeck">Deck Name</string>
 
 </resources>
