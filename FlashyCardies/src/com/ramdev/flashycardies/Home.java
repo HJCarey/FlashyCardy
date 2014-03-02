@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,6 +29,7 @@ public class Home extends Activity {
 	
 	String[] deckNames;
 	static String HOME_ADDDECK_EXTRA;
+	private ArrayList<Deck> deckList = new ArrayList<Deck>();
 	
 	private Button home_button_addDeck;
 	private Button home_button_editDeckButton;
@@ -187,6 +189,7 @@ public class Home extends Activity {
 	public void addDeck(String name) {
 		Deck deck = new Deck(name);
 		deck.saveDeck(Home.this);
+		deckList.add(deck);
 		populateDeckNames();
 		addNewDeckButton(deckNames.length-1);
 	}
