@@ -1,9 +1,13 @@
 package com.ramdev.flashycardies;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,8 +32,7 @@ public class Home extends Activity {
 	private final String DEFAULT_MASTER_FILE = "master.txt";
 	public  final static String EXTRA_MESSAGE = "com.ramdev.FlashyCardies";
 	private String focusDeck;
-	
-	private ArrayList<Deck> deckList = new ArrayList<Deck>();
+
 	
 	private Button home_button_addDeck;
 	private Button home_button_editDeckButton;
@@ -135,13 +138,12 @@ public class Home extends Activity {
 	}
 	
 	public void refreshDecks() {
-		File masterList = new File("master.txt");
 		String testString = "";
 		String delim = "[~]";
 		
 		//Pull all deck names from masterList.txt
 		try {
-			FileInputStream fis = openFileInput(masterList.getName());
+			FileInputStream fis = openFileInput(DEFAULT_MASTER_FILE);
 			
 			byte[] dataArray = new byte[fis.available()];
 			while (fis.read(dataArray) != -1) {
@@ -153,7 +155,6 @@ public class Home extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Toast.makeText(this, testString, Toast.LENGTH_SHORT).show();
 		
 		deckNames = testString.split(delim);
 	}
@@ -196,5 +197,55 @@ public class Home extends Activity {
     	intent.putExtra(EXTRA_MESSAGE, deck);
     	startActivity(intent);
 	}
+	
+	//Deletes the deck from memory then parses through the master.txt file and rebuilds it without the name of the deleted Deck
+	public void deleteDeck(Deck deck) {
+		File deckFile = new File(deck.getDeckName());
+		
+		File master = new File(DEFAULT_MASTER_FILE);
+		try {
+			String[] tokenizer = null;
+			String receiveString = "testys";
+			String delim = "~";
+			
+			InputStream inputStream = openFileInput(master.getName());
+			if (inputStream != null) {
+				InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+				BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+				StringBuilder stringBuilder = new StringBuilder();
+				
+				//Questionable Code
+				while ((receiveString = bufferedReader.readLine()) != null) {
+					stringBuilder.append(receiveString);
+					tokenizer = receiveString.split(delim);
+				}//end while
+			
+				//tokenizer = receiveString.split(delim);
+				
+				for (int i=0; i<tokenizer.length; i++) {
+					if (!tokenizer[i].equals(deck.getDeckName()))
+					writeToMaster(tokenizer[i] + delim, this);
+				}//end for
+				inputStreamReader.close();
+				bufferedReader.close();
+			}//end if
+			
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}//end try
+	}//end deleteDeck
+		
+	private void writeToMaster(String data, Context context) {
+		try {
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(DEFAULT_MASTER_FILE, Context.MODE_PRIVATE));
+			outputStreamWriter.write(data);
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}//end try
+	}//end writeToMaster
 
 }//end Home
