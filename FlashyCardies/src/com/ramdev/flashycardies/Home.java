@@ -11,7 +11,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -19,7 +18,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Home extends Activity {
@@ -65,14 +63,6 @@ public class Home extends Activity {
 		refreshDecks();
 //		populateDecks();
 		
-		setContentView(R.layout.activity_home);
-		
-		home_button_addDeck = (Button) findViewById(R.id.addDeck);
-		home_button_editDeckButton = (Button) findViewById(R.id.home_button_editDeckButton);
-		home_button_studyDeckButton = (Button) findViewById(R.id.home_button_studyDeckButton);
-		
-		home_tablelayout_deckViewLayout = (TableLayout) findViewById(R.id.home_tablelayout_deckViewLayout);
-		
 		initializeButtons();
 	}
 	
@@ -100,7 +90,7 @@ public class Home extends Activity {
 				addDeckAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						if(input1.getText().toString()==""){
-							Toast.makeText(Home.this, "Decks need a name", Toast.LENGTH_SHORT);
+							Toast.makeText(Home.this, "Decks need a name", Toast.LENGTH_SHORT).show();
 						} else {
 						addDeck(input1.getText().toString());
 						}
@@ -199,7 +189,7 @@ public class Home extends Activity {
 		View newDeckView = inflater.inflate(R.layout.new_deck_layout, null);
 		
 		Button newButton = (Button) newDeckView.findViewById(R.id.newdeck_button_newdeck);
-		newButton.setText(deckList.get(index).getDeckName());
+		newButton.setText(focusDeck);
 		newButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -212,8 +202,14 @@ public class Home extends Activity {
 	}
 	
 	private void editDeck(String deck){
-		
 		Intent intent = new Intent(this, EditDeck.class);
+		
+    	intent.putExtra(EXTRA_MESSAGE, deck);
+    	startActivity(intent);
+	}
+	
+	private void studyDeck(String deck){
+		Intent intent = new Intent(this, StudyDeck.class);
 		
     	intent.putExtra(EXTRA_MESSAGE, deck);
     	startActivity(intent);
@@ -223,7 +219,7 @@ public class Home extends Activity {
 		Deck deck = new Deck(name);
 		deck.saveDeck(Home.this);
 		focusDeck = deck.getDeckName();
-		deckList.add(deck);
+		//deckList.add(deck);
 		refreshDecks();
 		createNewDeck(deckNames.length-1);
 	}
